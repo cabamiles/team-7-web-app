@@ -77,6 +77,9 @@ public class User {
 	public void setHeight(int feet, int inches) {
 		this.height = 12 * feet + inches;
 	}
+	public void setHeight(int height) {
+		this.height = height;
+	}
 
 	public int getFightStyle() {
 		return fightStyle;
