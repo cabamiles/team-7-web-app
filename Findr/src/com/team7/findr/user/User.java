@@ -1,4 +1,5 @@
-package temp;
+package com.team7.findr.user;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
