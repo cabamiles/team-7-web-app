@@ -1,4 +1,4 @@
-package temp;
+package com.team7.findr.user;
 
 public class Constants {
 
@@ -33,5 +33,17 @@ public class Constants {
 	public static final int WEIGHT_DIVISIONS = 4;
 	public static final int WEIGHT_MIN = 100;
 	public static final int WEIGHT_MAX = 300;
+	
+	// DynamoDB constants
+	public static final String USER_TABLE = "Fighters";
+	public static final String USER_ID = "UserId";
+	public static final String FIRST_NAME = "FirstName";
+	public static final String LAST_NAME = "LastName";
+	public static final String AGE = "Age";
+	public static final String GENDER = "Gender";
+	public static final String HEIGHT = "Height";
+	public static final String WEIGHT = "Weight";
+	public static final String STYLE = "FightingStyle";
+	public static final String LOCATION = "Location";
 	
 }
