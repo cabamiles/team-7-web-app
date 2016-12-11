@@ -22,17 +22,12 @@ public class Constants {
 
 	//Dividing buckets
 	public static final int HEIGHT_DIVISIONS = 4;
-	public static final int HEIGHT_MIN = 48;
-	public static final int HEIGHT_MAX = 76;
-//	static final int HEIGHT_AVG = 66;
-//	static final int HEIGHT_STDEV = 4;
-	//divisions would be partitionSize = (max + min) / 4
-	// > min + partitionSize, increase by [partitionSize] each partition by [division] times 
-	
+	public static final int HEIGHT_MIN = 58;
+	public static final int HEIGHT_MAX = 72;
 	
 	public static final int WEIGHT_DIVISIONS = 4;
 	public static final int WEIGHT_MIN = 100;
-	public static final int WEIGHT_MAX = 300;
+	public static final int WEIGHT_MAX = 250;
 	
 	// DynamoDB constants
 	public static final String USER_TABLE = "Fighters";

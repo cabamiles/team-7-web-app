@@ -1,11 +1,10 @@
 package com.team7.findr.user;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class User {
+	private String email;
 	private String firstName;
 	private String lastName;
 	private int age;
@@ -19,16 +18,17 @@ public class User {
 	
 	private List<Integer> preference = new ArrayList<Integer>();
 
-	public User(String firstName, String lastName){
+	public User(String firstName, String lastName, String email){
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.setEmail(email);
 		
 		//default preferences
-		preference.add(Constants.WEIGHT_INDEX, 1);
-		preference.add(Constants.HEIGHT_INDEX, 1);
-		preference.add(Constants.GENDER_INDEX, 1);
-		preference.add(Constants.STYLE_INDEX, 1);
-		preference.add(Constants.LOCATION_INDEX, 1);
+		preference.add(Constants.WEIGHT_INDEX, 0);
+		preference.add(Constants.HEIGHT_INDEX, 0);
+		preference.add(Constants.GENDER_INDEX, 0);
+		preference.add(Constants.STYLE_INDEX, 0);
+		preference.add(Constants.LOCATION_INDEX, 0);
 	}
 	
 	public String getFirstName() {
@@ -75,8 +75,8 @@ public class User {
 		return height;
 	}
 
-	public void setHeight(int height) {
-		this.height = height;
+	public void setHeight(int feet, int inches) {
+		this.height = 12 * feet + inches;
 	}
 
 	public int getFightStyle() {
@@ -109,9 +109,19 @@ public class User {
 		return preference;
 	}
 
-	public void setPreference(List<Integer> preference) {
-		this.preference = preference;
+	public void setPreference(int categoryIndex, int value) {
+		this.preference.set(categoryIndex, value);
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	
 	
 
 }
