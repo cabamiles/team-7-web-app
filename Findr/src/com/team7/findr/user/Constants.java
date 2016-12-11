@@ -40,5 +40,6 @@ public class Constants {
 	public static final String WEIGHT = "Weight";
 	public static final String STYLE = "FightingStyle";
 	public static final String LOCATION = "Location";
-	
+	public static final String FEATURES = "Features";
+	public static final String PREFERENCES = "Preferences";
 }

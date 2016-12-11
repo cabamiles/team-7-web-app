@@ -1,10 +1,10 @@
-package util;
+package com.team7.findr.util;
 
-import temp.User;
+import com.team7.findr.user.User;
+import com.team7.findr.user.Constants;
 
 import java.util.List;
 
-import temp.Constants;
 
 public class BucketGenerator {
 	

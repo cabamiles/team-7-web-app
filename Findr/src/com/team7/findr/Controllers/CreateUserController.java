@@ -12,9 +12,15 @@ import com.amazonaws.auth.EnvironmentVariableCredentialsProvider;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.PutItemRequest;
+
 import com.fasterxml.uuid.Generators;
+
 import com.team7.findr.user.Constants;
 import com.team7.findr.user.User;
+
+import com.team7.findr.util.BucketGenerator;
+
+
 @Controller
 public class CreateUserController {
 
@@ -36,6 +42,9 @@ public class CreateUserController {
 		attributeMap.put(Constants.WEIGHT, new AttributeValue().withN(user.getWeight()+""));
 		attributeMap.put(Constants.LOCATION, new AttributeValue().withN(user.getLocation()+""));
 		attributeMap.put(Constants.STYLE, new AttributeValue().withN(user.getFightStyle()+""));
+		attributeMap.put(Constants.FEATURES, new AttributeValue().withN(BucketGenerator.getUserFeature(user)+""));
+		attributeMap.put(Constants.PREFERENCES, new AttributeValue().withN(BucketGenerator.getUserPreference(user)+""));
+		
 		
 		dynamoClient.putItem(new PutItemRequest(Constants.USER_TABLE, attributeMap));
 		
