@@ -1,9 +1,11 @@
 package com.team7.findr.user;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User {
+public class User implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private String email;
 	private String firstName;
 	private String lastName;
@@ -18,6 +20,10 @@ public class User {
 	
 	private List<Integer> preference = new ArrayList<Integer>();
 
+	
+	public User() {
+		
+	}
 	public User(String firstName, String lastName, String email){
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -77,6 +83,9 @@ public class User {
 
 	public void setHeight(int feet, int inches) {
 		this.height = 12 * feet + inches;
+	}
+	public void setHeight(int height) {
+		this.height = height;
 	}
 
 	public int getFightStyle() {
