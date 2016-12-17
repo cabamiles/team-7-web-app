@@ -9,7 +9,15 @@ $.fn.serializeObject = function()
             }
             o[this.name].push(this.value || "");
         } else {
-            o[this.name] = this.value || "";
+        	if (this.name === "name") {
+        		var nameArray = this.value.split(" ");
+        		var firstName = nameArray[0];
+        		var lastName = nameArray[nameArray.length-1];
+        		o["firstName"] = firstName;
+        		o["lastName"] = lastName;
+        	} else {
+        		o[this.name] = this.value || "";
+        	}
         }
     });
     return o;

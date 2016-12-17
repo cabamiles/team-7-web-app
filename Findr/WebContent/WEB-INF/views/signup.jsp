@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="js/put-user.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-default" role="navigation">
@@ -43,7 +44,7 @@
     <h1><span class="fa fa-sign-in"></span> Signup</h1>
 
     <!-- Signup  -->
-    <form action="/signup" method="post">
+    <form action="/Findr/sign-up" method="post">
         <div class="form-group">
             <label>Name</label>
             <input type="text" class="form-control" name="name">
@@ -82,29 +83,29 @@
             <input type="text" class="form-control" name="location">
         </div>
         <div class="form-group">
-          <label class="control-label" for="fstyles">Preferred Fighting Stlyes</label>
+          <label class="control-label" for="fightStyle">Preferred Fighting Stlyes</label>
           <div class="">
           <div class="checkbox">
             <label for="fstyles-0">
-              <input type="checkbox" name="fstyles" id="fstyles-0" value="1">
+              <input type="checkbox" name="fightStyle" id="fstyles-0" value="1">
               Judo
             </label>
         	</div>
           <div class="checkbox">
             <label for="fstyles-1">
-              <input type="checkbox" name="fstyles" id="fstyles-1" value="2">
+              <input type="checkbox" name="fightStyle" id="fstyles-1" value="2">
               Boxing
             </label>
         	</div>
           <div class="checkbox">
             <label for="fstyles-2">
-              <input type="checkbox" name="fstyles" id="fstyles-2" value="3">
+              <input type="checkbox" name="fightStyle" id="fstyles-2" value="3">
               Muay Thai
             </label>
         	</div>
           <div class="checkbox">
             <label for="fstyles-3">
-              <input type="checkbox" name="fstyles" id="fstyles-3" value="4">
+              <input type="checkbox" name="fightStyle" id="fstyles-3" value="4">
               Wrestling
             </label>
         	</div>

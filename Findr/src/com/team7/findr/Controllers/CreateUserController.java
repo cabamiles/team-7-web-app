@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.amazonaws.auth.EnvironmentVariableCredentialsProvider;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;	
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.PutItemRequest;
@@ -21,22 +21,14 @@ import com.team7.findr.util.BucketGenerator;
 
 @RestController
 public class CreateUserController {
-
-	@RequestMapping(method=RequestMethod.GET,value="/sign-up")
-	public ModelAndView signUpForm() {
-		return new ModelAndView("sign-up");
-	}
-	
 	
 	@RequestMapping(method=RequestMethod.POST, value="/sign-up", consumes=MediaType.APPLICATION_JSON_VALUE)
 	public String putUser(@RequestBody User user) {
-		AmazonDynamoDBClient dynamoClient = new AmazonDynamoDBClient(new EnvironmentVariableCredentialsProvider());
+		AmazonDynamoDBClient dynamoClient = new AmazonDynamoDBClient(new ProfileCredentialsProvider());
 		HashMap<String, AttributeValue> attributeMap = new HashMap<String, AttributeValue>();
 	
 		String email = user.getEmail();
-		System.out.println(email);
 		String uuid = Generators.nameBasedGenerator().generate(email).toString();
-		System.out.println(uuid);
 		
 		attributeMap.put(Constants.USER_ID, new AttributeValue().withS(uuid));
 		attributeMap.put(Constants.FIRST_NAME, new AttributeValue().withS(user.getFirstName()));
@@ -47,11 +39,12 @@ public class CreateUserController {
 		attributeMap.put(Constants.WEIGHT, new AttributeValue().withN(user.getWeight()+""));
 		attributeMap.put(Constants.LOCATION, new AttributeValue().withN(user.getLocation()+""));
 		attributeMap.put(Constants.STYLE, new AttributeValue().withN(user.getFightStyle()+""));
-		attributeMap.put(Constants.FEATURES, new AttributeValue().withN(BucketGenerator.getUserFeature(user)+""));
-		attributeMap.put(Constants.PREFERENCES, new AttributeValue().withN(BucketGenerator.getUserPreference(user)+""));
 		
-		
-		dynamoClient.putItem(new PutItemRequest(Constants.USER_TABLE, attributeMap));
+		// Must populate features and preferences first
+		// attributeMap.put(Constants.FEATURES, new AttributeValue().withN(BucketGenerator.getUserFeature(user)+""));
+		// attributeMap.put(Constants.PREFERENCES, new AttributeValue().withN(BucketGenerator.getUserPreference(user)+""));
+		PutItemRequest putItemRequest = new PutItemRequest(Constants.USER_TABLE, attributeMap);
+		dynamoClient.putItem(putItemRequest);
 		return "User " + user.getEmail() + " successfully created";
 	}
 }
