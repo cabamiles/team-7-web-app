@@ -35,7 +35,6 @@ $(document).ready(function() {
           data: formData,
           contentType: 'application/json; charset=utf-8',
           complete: function() {
-        	  console.log("success");
         	  window.location.replace("/Findr/preferences");
         	  return false;
           }
