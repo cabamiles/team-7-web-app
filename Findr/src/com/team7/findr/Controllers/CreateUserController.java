@@ -2,6 +2,8 @@ package com.team7.findr.Controllers;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +24,7 @@ import com.team7.findr.user.User;
 public class CreateUserController {
 	
 	@RequestMapping(method=RequestMethod.POST, value="/sign-up", consumes=MediaType.APPLICATION_JSON_VALUE)
-	public void putUser(@RequestBody User user) {
+	public void putUser(@RequestBody User user, HttpServletRequest request) {
 		AmazonDynamoDBClient dynamoClient = new AmazonDynamoDBClient(new ProfileCredentialsProvider());
 		HashMap<String, AttributeValue> attributeMap = new HashMap<String, AttributeValue>();
 	
@@ -44,6 +46,9 @@ public class CreateUserController {
 		// attributeMap.put(Constants.PREFERENCES, new AttributeValue().withN(BucketGenerator.getUserPreference(user)+""));
 		PutItemRequest putItemRequest = new PutItemRequest(Constants.USER_TABLE, attributeMap);
 		dynamoClient.putItem(putItemRequest);
+		
+		request.getSession().setAttribute("user", user);
+		request.getSession().setAttribute("email", user.getEmail());
 	}
 	
 	@RequestMapping("/preferences")
