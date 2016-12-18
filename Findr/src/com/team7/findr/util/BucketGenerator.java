@@ -8,8 +8,7 @@ import java.util.List;
 
 public class BucketGenerator {
 	
-	public static int getUserPreference(User a){
-		List<Integer> preferences = a.getPreference();
+	public static int getUserPreference(List<Integer> preferences){
 		
 		int location = preferences.get(Constants.LOCATION_INDEX);
 		int heightPartition = getHeightPartition(preferences.get(Constants.HEIGHT_INDEX));

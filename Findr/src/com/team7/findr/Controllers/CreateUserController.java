@@ -9,21 +9,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.amazonaws.auth.profile.ProfileCredentialsProvider;	
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.PutItemRequest;
 import com.fasterxml.uuid.Generators;
 import com.team7.findr.user.Constants;
 import com.team7.findr.user.User;
-import com.team7.findr.util.BucketGenerator;
 
 
 @RestController
 public class CreateUserController {
 	
 	@RequestMapping(method=RequestMethod.POST, value="/sign-up", consumes=MediaType.APPLICATION_JSON_VALUE)
-	public String putUser(@RequestBody User user) {
+	public void putUser(@RequestBody User user) {
 		AmazonDynamoDBClient dynamoClient = new AmazonDynamoDBClient(new ProfileCredentialsProvider());
 		HashMap<String, AttributeValue> attributeMap = new HashMap<String, AttributeValue>();
 	
@@ -45,6 +44,11 @@ public class CreateUserController {
 		// attributeMap.put(Constants.PREFERENCES, new AttributeValue().withN(BucketGenerator.getUserPreference(user)+""));
 		PutItemRequest putItemRequest = new PutItemRequest(Constants.USER_TABLE, attributeMap);
 		dynamoClient.putItem(putItemRequest);
-		return "User " + user.getEmail() + " successfully created";
+	}
+	
+	@RequestMapping("/preferences")
+	public ModelAndView redirectPreferences() {
+		System.out.println("redirect called");
+		return new ModelAndView("preferences");
 	}
 }
