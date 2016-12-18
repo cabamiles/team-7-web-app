@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="js/login.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-default" role="navigation">
@@ -42,7 +43,7 @@
      <h1><span class="fa fa-sign-in"></span>Login</h1>
 
      <!-- Login -->
-     <form action="/login" method="post">
+     <form action="/Findr/login" method="post">
          <div class="form-group">
              <label>Email</label>
              <input type="text" class="form-control" name="email">

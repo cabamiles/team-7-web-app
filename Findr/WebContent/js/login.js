@@ -25,11 +25,9 @@ $.fn.serializeObject = function()
 
 $(document).ready(function() {
 	$('form').submit(function(event){
-		console.log("AJAX function called");
 		var formData = JSON.stringify($('form').serializeObject());
-		console.log(formData);
 		$.ajax({
-          url: '/Findr/prefs',
+          url: '/Findr/login',
           type: 'POST',
           dataType: 'json', 
           data: formData,

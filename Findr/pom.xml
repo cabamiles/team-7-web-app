@@ -26,6 +26,10 @@
 			</plugin>
 		</plugins>
 	</build>
+	<properties>
+		<spring.data.redis>1.7.5.RELEASE</spring.data.redis>
+		<jedis>2.6.0</jedis>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>commons-logging</groupId>
@@ -55,7 +59,12 @@
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-redis</artifactId>
-			<version>1.7.5.RELEASE</version>
+			<version>${spring.data.redis}</version>
+		</dependency>
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>${jedis}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>

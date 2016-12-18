@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.PutItemRequest;
@@ -23,9 +23,12 @@ import com.team7.findr.user.User;
 @RestController
 public class CreateUserController {
 	
+	@Autowired
+	private AmazonDynamoDBClient dynamoClient;
+	
 	@RequestMapping(method=RequestMethod.POST, value="/sign-up", consumes=MediaType.APPLICATION_JSON_VALUE)
 	public void putUser(@RequestBody User user, HttpServletRequest request) {
-		AmazonDynamoDBClient dynamoClient = new AmazonDynamoDBClient(new ProfileCredentialsProvider());
+		//AmazonDynamoDBClient dynamoClient = new AmazonDynamoDBClient(new ProfileCredentialsProvider());
 		HashMap<String, AttributeValue> attributeMap = new HashMap<String, AttributeValue>();
 	
 		String email = user.getEmail();
