@@ -6,11 +6,11 @@
   <title>Findr</title>
   <spring:url value="/assets/style.css" var="styleCSS" />
   <link href="${styleCSS}" rel="stylesheet" />
-  
+
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="js/login.js"></script>
+  <script src="js/matches.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-default" role="navigation">
@@ -26,41 +26,35 @@
           <li class="active">
             <a href="/Findr/matches">Matches</a>
           </li>
-          <li>
-            <a href="#">Settings</a>
-          </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li>
-            <a href="/Findr/">Register</a>
+            <a href="/Findr/login">Logout</a>
           </li>
         </ul>
       </div>
 
     </nav>
-    <div class="col-sm-6 col-sm-offset-3">
+    <div class="container-fluid">
+    	<div class="row">
+    		<div class="col-md-12 match-header">
+            <h1>Matches:</h1>
+    		</div>
+        <div class="col-md-6 col-md-offset-3">
+          <ul class="matches">
+            <li class="person">
+                <h1>Jacob<h1>
+                <p id="gender">M</p>
+                <h2 id="age">39</h2>
+                Fight Style:<p id="fightStyle"> <p>
+                Height:<p id="height"> </p>
+                Weight:<p id="weight"> </p>
+                Contact:<p id="email"> </p>
+            <li>
+          </ul>
+        </div>
 
-     <h1><span class="fa fa-sign-in"></span>Login</h1>
-
-     <!-- Login -->
-     <form action="/Findr/login" method="post">
-         <div class="form-group">
-             <label>Email</label>
-             <input type="text" class="form-control" name="email">
-         </div>
-         <div class="form-group">
-             <label>Password</label>
-             <input type="password" class="form-control" name="password">
-         </div>
-
-         <button type="submit" class="btn btn-warning btn-lg">Login</button>
-     </form>
-
-     <hr>
-
-     <p>Need an account? <a href="/Findr/">Signup</a></p>
-
- </div>
-
+    	</div>
+    </div>
 </body>
 </html>
