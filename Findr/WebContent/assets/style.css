@@ -1,18 +1,42 @@
 body {
 
 }
+.container {
+  margin-top: 80px;
+
+}
 .content {
+  text-align: center;
+  border: 1px grey solid;
+  height:450px;
+  width: 400px;
+  padding: 0;
+  margin: 0 auto;
+}
+.bio {
+  text-align: left;
+}
+.bio-main{
+  left:10px;
+}
+.bio-info {
+  top: 30px;
   text-align: center;
 }
 .prof-pic {
   width: 400px;
-  border: 3px grey solid;
-  box-shadow: 5px 5px 5px #888888;
+  /*border: 3px grey solid;
+  box-shadow: 5px 5px 5px #888888;*/
+}
+.col-sm-12 {
+  padding: 0!important;
 }
 .swipe {
-  border-color: white;
-  background-color: white;
+  margin-top: 20px;
 }
 .swipe img{
-  width: 80px;
+  width: 50px;
+}
+.button {
+  border-radius: 20px;
 }

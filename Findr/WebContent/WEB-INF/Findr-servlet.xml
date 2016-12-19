@@ -1,14 +1,18 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="
    http://www.springframework.org/schema/beans     
    http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
    http://www.springframework.org/schema/mvc
    http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
    http://www.springframework.org/schema/context 
-   http://www.springframework.org/schema/context/spring-context-4.3.xsd">
-
+   http://www.springframework.org/schema/context/spring-context-4.3.xsd
+   http://www.springframework.org/schema/aop
+   http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+	
 	<context:component-scan base-package="com.team7.findr" />
 
 	<bean
@@ -26,7 +30,23 @@
 			</list>
 		</property>
 	</bean>
-
+	<bean id="user" class="com.team7.findr.user.User" scope="session">
+		<aop:scoped-proxy/>
+	</bean>
+	
+	<!-- jedis configuration factory -->
+	<bean id="jedisConnFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+		p:host-name="127.0.0.1" p:port="6379"/>
+	<bean id="redisTemplate"
+		class="org.springframework.data.redis.core.RedisTemplate"
+		p:connection-factory-ref="jedisConnFactory"/>
+	<bean id="awsCredentialsProvider"
+		class="com.amazonaws.auth.profile.ProfileCredentialsProvider"/>
+	<bean id="dynamoClient" class="com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient">
+		<constructor-arg ref="awsCredentialsProvider" />
+	</bean>
+		
 	<mvc:resources mapping="/assets/**" location="/assets/" />
 	<mvc:resources mapping="js/**" location="/js/" />
 	<mvc:annotation-driven />

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,9 +27,12 @@ import com.team7.findr.util.BucketGenerator;
 @RestController
 public class PreferencesController {
 
+	@Autowired
+	private AmazonDynamoDBClient dynamoClient;
+	
 	@RequestMapping(method=RequestMethod.POST, value="/prefs", consumes=MediaType.APPLICATION_JSON_VALUE)
-	public void putPreferences(@RequestBody PreferencesRequest prefRequest) {
-		DynamoDB dynamo = new DynamoDB(new AmazonDynamoDBClient(new ProfileCredentialsProvider()));
+	public void putPreferences(@RequestBody PreferencesRequest prefRequest, HttpServletRequest request) {
+		DynamoDB dynamo = new DynamoDB(dynamoClient);
 		Table table = dynamo.getTable(Constants.USER_TABLE);
 		
 		HashMap<String, String> attributeNames = new HashMap<String, String>();
@@ -34,8 +40,8 @@ public class PreferencesController {
 		
 		HashMap<String, Object> attributeValues = new HashMap<String, Object>();
 		
-		System.out.println(prefRequest.getEmail());
-		String uuid = Generators.nameBasedGenerator().generate(prefRequest.getEmail()).toString();
+		System.out.println((String)request.getSession().getAttribute("email"));
+		String uuid = Generators.nameBasedGenerator().generate((String)request.getSession().getAttribute("email")).toString();
 		
 		List<Integer> preferencesList = new ArrayList<Integer>();
 		

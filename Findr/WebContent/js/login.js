@@ -25,17 +25,15 @@ $.fn.serializeObject = function()
 
 $(document).ready(function() {
 	$('form').submit(function(event){
-		console.log("AJAX function called");
 		var formData = JSON.stringify($('form').serializeObject());
-		console.log(formData);
 		$.ajax({
-          url: '/Findr/sign-up',
+          url: '/Findr/login',
           type: 'POST',
           dataType: 'json', 
           data: formData,
           contentType: 'application/json; charset=utf-8',
           complete: function() {
-        	  window.location.replace("/Findr/preferences");
+        	  window.location.replace("/Findr/fight");
         	  return false;
           }
 		});

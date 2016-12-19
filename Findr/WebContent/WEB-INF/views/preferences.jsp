@@ -64,15 +64,15 @@
         </div>
         <div class="form-group">
             <label>Weight</label>
-            <input type="text" class="form-control" name="weight">
+            <input type="number" class="form-control" name="weight">
         </div>
         <div class="form-group">
             <label>Height</label>
-            <input type="text" class="form-control" name="height">
+            <input type="number" class="form-control" name="height">
         </div>
         <div class="form-group">
             <label>Location</label>
-            <input type="text" class="form-control" name="location">
+            <input type="number" class="form-control" name="location">
         </div>
         <div class="form-group">
           <label class="control-label" for="fightStyle">Preferred Fighting Stlyes</label>
@@ -103,10 +103,7 @@
         	</div>
           </div>
         </div>
-        <div class="form-group">
-            <label>Email</label>
-            <input type="text" class="form-control" name="email">
-        </div>
+        <!-- <div class="form-group"><input type="hidden" name="email" value="${sessionScope.email}"></div>  -->
         <button type="submit" class="btn btn-warning btn-lg">Signup</button>
     </form>
 

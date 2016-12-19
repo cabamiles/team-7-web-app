@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="js/login.js"></script>
+  <script src="js/fight.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-default" role="navigation">
@@ -26,41 +26,38 @@
           <li class="active">
             <a href="#">Matches</a>
           </li>
-          <li>
-            <a href="#">Settings</a>
-          </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li>
-            <a href="/Findr/">Register</a>
+            <a href="/Findr/login">Logout</a>
           </li>
         </ul>
       </div>
 
     </nav>
-    <div class="col-sm-6 col-sm-offset-3">
-
-     <h1><span class="fa fa-sign-in"></span>Login</h1>
-
-     <!-- Login -->
-     <form action="/Findr/login" method="post">
-         <div class="form-group">
-             <label>Email</label>
-             <input type="text" class="form-control" name="email">
-         </div>
-         <div class="form-group">
-             <label>Password</label>
-             <input type="password" class="form-control" name="password">
-         </div>
-
-         <button type="submit" class="btn btn-warning btn-lg">Login</button>
-     </form>
-
-     <hr>
-
-     <p>Need an account? <a href="/Findr/">Signup</a></p>
-
+<div class="container">
+ <div id="curr" class="content">
+   <div class="col-sm-12 pic">
+    <img id="main-pic" class="prof-pic" src="http://blogs-images.forbes.com/kurtbadenhausen/files/2015/06/fm-e1433941678273.jpg"/>
+    <div class="bio">
+      <div class="col-sm-3 bio-main">
+        <h1 id="name">Floyd</h2>
+        <h2 style="text-align:center;" id="age">39</h2>
+      </div>
+      <div class="col-sm-9 bio-info">
+        Fight Style:<p id="fightStyle"> <p>
+        Height:<p id="height"> </p>
+        Weight:<p id="weight"> </p>
+      </div>
+    </div>
+  </div>
+   <div class="swipe col-sm-6">
+     <button id="leftClick"><img src="/Findr/assets/x2.png"/></button>
+   </div>
+   <div class="swipe col-sm-6">
+     <button id="rightClick"><img src="/Findr/assets/boxing.png"/></button>
+   </div>
  </div>
-
+</div>
 </body>
 </html>
