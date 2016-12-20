@@ -44,4 +44,5 @@ public class Constants {
 	public static final String PREFERENCES = "Preferences";
 	public static final String CANDIDATES = "Candidates";
 	public static final String LIKES = "Likes";
+	public static final String MATCHES = "Matches";
 }

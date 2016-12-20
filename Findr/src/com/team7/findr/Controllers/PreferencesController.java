@@ -58,6 +58,7 @@ public class PreferencesController {
 		int prefInt = BucketGenerator.getUserPreference(preferencesList);
 		attributeValues.put(":val", prefInt);
 		
+		
 		UpdateItemOutcome outcome = table.updateItem(
 				new PrimaryKey(Constants.USER_ID, uuid),
 				"set #P = :val",

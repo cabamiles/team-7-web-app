@@ -45,9 +45,9 @@
         <h2 style="text-align:center;" id="age">39</h2>
       </div>
       <div class="col-sm-9 bio-info">
-        Fight Style:<p id="fightStyle"> <p>
-        Height:<p id="height"> </p>
-        Weight:<p id="weight"> </p>
+        Fight Style:<p id="fightStyle">Boxing<p>
+        Height:<p id="height">68</p>
+        Weight:<p id="weight">151</p>
       </div>
     </div>
   </div>
