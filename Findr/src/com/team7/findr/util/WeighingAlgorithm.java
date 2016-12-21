@@ -9,14 +9,15 @@ public class WeighingAlgorithm {
 
 	public final int CUT_OFF_SCORE = 350; //completely arbitrary right now
 	
-	public boolean isCompatible(User a, User b){
-		if(isCompatibleDirectional(a, b) && isCompatibleDirectional(b, a)) {
-			return true;
-		}
-		return false;
+	public int getCompatibilityScore(User a, User b){
+		int score = 0;
+		score += isCompatibleDirectional(a, b);
+		score += isCompatibleDirectional(b, a);
+		
+		return score;
 	}
 	
-	private boolean isCompatibleDirectional(User a, User b) {
+	private int isCompatibleDirectional(User a, User b) {
 		int score = 0;
 		
 		score += getGenderScore(a, b);
@@ -25,10 +26,7 @@ public class WeighingAlgorithm {
 		score += getFightStyleScore(a, b);
 		score += getLocationScore(a, b);
 	
-		if(score > CUT_OFF_SCORE) {
-			return true;
-		}
-		return false;
+		return score;
 	}
 	
 	private int getGenderScore(User a, User b) {
