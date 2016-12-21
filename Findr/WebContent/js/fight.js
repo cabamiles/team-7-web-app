@@ -1,5 +1,5 @@
-var styleMap = {"1":"Judo", "2":"Boxing", "3":"Muay Thai", "1":"Wrestling"};
-var genderMap = {"1":"Male", "2":"Female"};
+var styleMap = {"0":"Judo", "1":"Boxing", "2":"Muay Thai", "3":"Wrestling"};
+var genderMap = {"0":"Male", "1":"Female"};
 
 $(document).ready(function() {
 	$("#leftClick").click(function(event){
