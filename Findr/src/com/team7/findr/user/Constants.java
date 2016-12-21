@@ -1,5 +1,9 @@
 package com.team7.findr.user;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class Constants {
 
 	//Gender
@@ -45,4 +49,7 @@ public class Constants {
 	public static final String CANDIDATES = "Candidates";
 	public static final String LIKES = "Likes";
 	public static final String MATCHES = "Matches";
+	public static final String MALE_DEFAULT = "http://blogs-images.forbes.com/kurtbadenhausen/files/2015/06/fm-e1433941678273.jpg";
+	public static final String FEMALE_DEFAULT = "https://peopledotcom.files.wordpress.com/2016/08/rhonda-rousey-435.jpg";
+	public static final List<String> FIGHTING_STYLES = Collections.unmodifiableList(Arrays.asList("Judo", "Boxing", "Muay Thai", "Wrestling"));
 }

@@ -2,11 +2,14 @@ package com.team7.findr.Controllers;
 
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,12 +21,9 @@ import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
 import com.amazonaws.services.dynamodbv2.document.Table;
-import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.fasterxml.uuid.Generators;
 import com.team7.findr.user.Constants;
 
-import java.util.List;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -45,7 +45,6 @@ public class FightController {
 		
 		JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost");
 		String uuid = Generators.nameBasedGenerator().generate((String)request.getSession().getAttribute("email")).toString();
-		
 		// get necessary user information from redis (query by user id for the candidates list)
 		String candidateId = null;
 		try (Jedis jedis = pool.getResource()){
@@ -66,7 +65,13 @@ public class FightController {
 			model.addObject("candidateAge", item.getString(Constants.AGE));
 			model.addObject("candidateHeight", item.getString(Constants.HEIGHT));
 			model.addObject("candidateWeight", item.getString(Constants.WEIGHT));
-			model.addObject("candidateStyle", item.getString(Constants.STYLE));
+			model.addObject("candidateStyle", Constants.FIGHTING_STYLES.get(Integer.parseInt(item.getString(Constants.STYLE))));
+			int gender = Integer.parseInt(item.getString(Constants.GENDER));
+			if (gender==0) {
+				model.addObject("candidatePhoto", Constants.MALE_DEFAULT);
+			} else {
+				model.addObject("candidatePhoto", Constants.FEMALE_DEFAULT);
+			}
 		} catch (Exception e) {
 			System.err.println("Could not get item for candidate " + candidateId);
 			System.err.println(e.getMessage());
@@ -75,6 +80,7 @@ public class FightController {
 		model.addObject("candidateId", candidateId);
 		return model;
 	}
+	
 	/*
 	 * Controller for processing left clicks
 	 */
@@ -120,6 +126,58 @@ public class FightController {
 		return candidate;
 	}
 	
+	@RequestMapping(value="/check-match", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
+	public void checkMatch(@RequestBody String candidateId, HttpServletRequest request){
+		DynamoDB dynamo = new DynamoDB(dynamoClient);
+		Table table = dynamo.getTable(Constants.USER_TABLE);
+		String uuid = Generators.nameBasedGenerator().generate((String)request.getSession().getAttribute("email")).toString();
+		
+		System.out.println(candidateId);
+		// check if it's a match
+		PrimaryKey primaryKey = new PrimaryKey(Constants.USER_ID, candidateId);
+		PrimaryKey userKey = new PrimaryKey(Constants.USER_ID, uuid);
+		Item item = table.getItem(primaryKey);
+		Item userItem = table.getItem(userKey);
+		List<String> likesList = item.getList(Constants.LIKES);
+		System.out.println(likesList.size());
+		for (String s : likesList) {
+			System.out.println(s);
+		}
+		if (item.getList(Constants.LIKES)!= null && likesList.contains(uuid)) {
+			// add user to candidates matches and vice versa
+			List<String> userMatches = userItem.getList(Constants.MATCHES);
+			List<String> candMatches = item.getList(Constants.MATCHES);
+			boolean usrHasMatches = userMatches != null;
+			boolean candHasMatches = candMatches != null;
+			int usrNumMatches;
+			int candNumMatches;
+
+			if (usrHasMatches) {
+				usrNumMatches = userMatches.size();
+			} else {
+				usrNumMatches = 0;
+			}
+
+			if (candHasMatches) {
+				candNumMatches = candMatches.size();
+			} else {
+				candNumMatches = 0;
+			}
+			setMatch(table, uuid, candidateId, usrNumMatches, candNumMatches);
+		}
+
+		// add candidate to user's likes
+		List<String> userLikes = userItem.getList(Constants.LIKES);
+		boolean hasLikes = userLikes != null;
+		int numLikes;
+		if (hasLikes) {
+			numLikes = userLikes.size();
+		} else {
+			numLikes = 0;
+		}
+
+		setLikes(table, uuid, candidateId, numLikes);
+	}
 	/*
 	 * Controller for processing right clicks
 	 */
@@ -155,44 +213,6 @@ public class FightController {
 			candidate.put(Constants.WEIGHT, item.getString(Constants.WEIGHT));
 			candidate.put(Constants.STYLE, item.getString(Constants.STYLE));
 			candidate.put(Constants.GENDER, item.getString(Constants.GENDER));
-			
-			// check if it's a match
-			Item userItem = table.getItem(userKey);
-			if (item.getList(Constants.LIKES)!= null && item.getList(Constants.LIKES).contains(uuid)) {
-				// add user to candidates matches and vice versa
-				List<String> userMatches = userItem.getList(Constants.MATCHES);
-				List<String> candMatches = item.getList(Constants.MATCHES);
-				boolean usrHasMatches = userMatches != null;
-				boolean candHasMatches = candMatches != null;
-				int usrNumMatches;
-				int candNumMatches;
-				
-				if (usrHasMatches) {
-					usrNumMatches = userMatches.size();
-				} else {
-					usrNumMatches = 0;
-				}
-				
-				if (candHasMatches) {
-					candNumMatches = candMatches.size();
-				} else {
-					candNumMatches = 0;
-				}
-				setMatch(table, uuid, candidateId, usrNumMatches, candNumMatches);
-			}
-			
-			// add candidate to user's likes
-			List<String> userLikes = userItem.getList(Constants.LIKES);
-			boolean hasLikes = userLikes != null;
-			int numLikes;
-			if (hasLikes) {
-				numLikes = userLikes.size();
-			} else {
-				numLikes = 0;
-			}
-			
-			setLikes(table, uuid, candidateId, numLikes);
-			
 		} catch (Exception e) {
 			System.err.println("Could not get item " + candidateId);
 			System.err.println(e.getMessage());
@@ -206,24 +226,23 @@ public class FightController {
 	private void setMatch(Table table, String userId, String candidateId, int usrMatches, int candMatches) {
 		HashMap<String, String> attributeNames = new HashMap<String, String>();
 		attributeNames.put("#M", Constants.MATCHES);
-		HashMap<String, Object> attributeValues = new HashMap<String, Object>();
-		attributeValues.put(":can", candidateId);
-		attributeValues.put(":usr", userId);
+		HashMap<String, Object> attributeValuesCan = new HashMap<String, Object>();
+		HashMap<String, Object> attributeValuesUsr = new HashMap<String, Object>();
+		attributeValuesCan.put(":can", candidateId);
+		attributeValuesUsr.put(":usr", userId);
 		
 		table.updateItem(
 				new PrimaryKey(Constants.USER_ID, userId),
 				"set #M[" + usrMatches + "] = :can",
 				attributeNames,
-				attributeValues
+				attributeValuesCan
 				);
 		
 		table.updateItem(new PrimaryKey(Constants.USER_ID, candidateId),
 				"set #M[" + candMatches + "] = :usr",
 				attributeNames,
-				attributeValues
+				attributeValuesUsr
 				);
-
-		
 	}
 	
 	private void setLikes(Table table, String userId, String candidateId, int usrLikes) {
@@ -240,27 +259,4 @@ public class FightController {
 				);
 		
 	}
-	
-//	@RequestMapping(value="/fight-right", method = RequestMethod.GET)
-//	public String checkMatch(ModelMap model, HttpServletRequest request) {
-//		DynamoDB dynamo = new DynamoDB(dynamoClient);
-//		Table table = dynamo.getTable(Constants.USER_TABLE);
-//		String uuid = Generators.nameBasedGenerator().generate((String)request.getSession().getAttribute("email")).toString();
-//		String candidateId = (String)request.getSession().getAttribute("candidateId");
-//		
-//		
-//		
-//		
-//		return "redirect:/fight-right";
-//	}
-	// need another controler for this processing
-//	// check if the candidate is in the user's Likes list
-//	List<Object> likes = item.getList(Constants.LIKES);
-//	HashSet<String> likesSet = new HashSet<String>();
-//	for (Object like : likes) {
-//		likesSet.add((String)like);
-//	}
-//	if (likesSet.contains(uuid)) {
-//		// display match
-	//}
 }

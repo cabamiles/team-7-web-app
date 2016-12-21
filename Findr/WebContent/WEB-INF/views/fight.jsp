@@ -38,23 +38,23 @@
 <div class="container">
  <div id="curr" class="content">
    <div class="col-sm-12 pic">
-    <img id="main-pic" class="prof-pic" src="http://blogs-images.forbes.com/kurtbadenhausen/files/2015/06/fm-e1433941678273.jpg"/>
+    <img id="main-pic" class="prof-pic" src="${candidatePhoto}"/>
     <div class="bio">
       <div class="col-sm-3 bio-main">
-        <h1 id="name">Floyd</h2>
-        <h2 style="text-align:center;" id="age">39</h2>
+        <h1 id="name">${candidateName}</h2>
+        <h2 style="text-align:center;" id="age">${candidateAge}</h2>
       </div>
       <div class="col-sm-9 bio-info">
-        Fight Style:<p id="fightStyle">Boxing<p>
-        Height:<p id="height">68</p>
-        Weight:<p id="weight">151</p>
+        Fight Style:<p id="fightStyle">${candidateStyle}</p>
+        Height:<p id="height">${candidateHeight}</p>
+        Weight:<p id="weight">${candidateAge}</p>
       </div>
     </div>
   </div>
    <div class="swipe col-sm-6">
      <button id="leftClick"><img src="/Findr/assets/x2.png"/></button>
    </div>
-   <div class="swipe col-sm-6">
+   <div id="right-click-div" class="swipe col-sm-6" data-candidate-id="${candidateId}">
      <button id="rightClick"><img src="/Findr/assets/boxing.png"/></button>
    </div>
  </div>

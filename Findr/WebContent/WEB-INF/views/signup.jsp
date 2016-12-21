@@ -54,13 +54,13 @@
           <div class="">
             <div class="radio">
               <label for="gender-0">
-                <input type="radio" name="gender" id="gender-0" value="1" checked="checked">
+                <input type="radio" name="gender" id="gender-0" value="0" checked="checked">
                 Male
               </label>
           	</div>
             <div class="radio">
               <label for="gender-1">
-                <input type="radio" name="gender" id="gender-1" value="2">
+                <input type="radio" name="gender" id="gender-1" value="1">
                 Female
               </label>
           	</div>
@@ -87,25 +87,25 @@
           <div class="">
           <div class="checkbox">
             <label for="fstyles-0">
-              <input type="checkbox" name="fightStyle" id="fstyles-0" value="1">
+              <input type="checkbox" name="fightStyle" id="fstyles-0" value="0">
               Judo
             </label>
         	</div>
           <div class="checkbox">
             <label for="fstyles-1">
-              <input type="checkbox" name="fightStyle" id="fstyles-1" value="2">
+              <input type="checkbox" name="fightStyle" id="fstyles-1" value="1">
               Boxing
             </label>
         	</div>
           <div class="checkbox">
             <label for="fstyles-2">
-              <input type="checkbox" name="fightStyle" id="fstyles-2" value="3">
+              <input type="checkbox" name="fightStyle" id="fstyles-2" value="2">
               Muay Thai
             </label>
         	</div>
           <div class="checkbox">
             <label for="fstyles-3">
-              <input type="checkbox" name="fightStyle" id="fstyles-3" value="4">
+              <input type="checkbox" name="fightStyle" id="fstyles-3" value="3">
               Wrestling
             </label>
         	</div>
