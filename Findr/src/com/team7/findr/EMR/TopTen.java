@@ -107,7 +107,7 @@ public class TopTen extends Configured implements Tool {
 		private ArrayWritable result;
 		private final int NUM_TO_RETURN = 10;
 
-		public void reduce(Text matcherId, Iterable<Text> userIds, Context context) throws IOException, InterruptedException {
+		public void reduce(Text matcherId, Text userId, Context context) throws IOException, InterruptedException {
 			String[] arrayResults = new String[NUM_TO_RETURN];
 			ArrayList<User> matchedUsers = new ArrayList<>();
 			WeighingAlgorithm wa = new WeighingAlgorithm();
@@ -122,31 +122,28 @@ public class TopTen extends Configured implements Tool {
 			// Find the ten most compatible matches.
 			int currLowestMatch = 501; 
 			int indexLowestMatch = 0;
-			for(Text userId : userIds) {
-				redisClient.append(userId.toString(), "hello");
-				// Query DynamoDB for the user information.
-				PrimaryKey matcheePK = new PrimaryKey(Constants.USER_ID, userId.toString());
-				Item matcheeItem = userTable.getItem(matcheePK);
-				// Generate a new User from the DynamoDB information.
-				User matcheeUser = new User(matcheeItem);
-				// Set the User Object's Id.
-				matcheeUser.setUserID(userId.toString());
-				int matchScore = wa.getCompatibilityScore(matcherUser, matcheeUser);
-				// Check match scores.
-				if (matchedUsers.size() < 10) {
-					matchedUsers.add(matcheeUser);
-					if (matchScore < currLowestMatch) {
-						currLowestMatch = matchScore;
-						indexLowestMatch = matchedUsers.size();
-					}
-				} else if (matchScore > currLowestMatch) {
-					matchedUsers.remove(indexLowestMatch);
-					matchedUsers.add(matcheeUser);
-					int[] updateInfo = getLowestMatchInfo(matcherUser, matchedUsers);
-					// Update the new Lowest Match Score and Index.
-					indexLowestMatch = updateInfo[0];
-					currLowestMatch = updateInfo[1];
+			// Query DynamoDB for the user information.
+			PrimaryKey matcheePK = new PrimaryKey(Constants.USER_ID, userId.toString());
+			Item matcheeItem = userTable.getItem(matcheePK);
+			// Generate a new User from the DynamoDB information.
+			User matcheeUser = new User(matcheeItem);
+			// Set the User Object's Id.
+			matcheeUser.setUserID(userId.toString());
+			int matchScore = wa.getCompatibilityScore(matcherUser, matcheeUser);
+			// Check match scores.
+			if (matchedUsers.size() < 10) {
+				matchedUsers.add(matcheeUser);
+				if (matchScore < currLowestMatch) {
+					currLowestMatch = matchScore;
+					indexLowestMatch = matchedUsers.size();
 				}
+			} else if (matchScore > currLowestMatch) {
+				matchedUsers.remove(indexLowestMatch);
+				matchedUsers.add(matcheeUser);
+				int[] updateInfo = getLowestMatchInfo(matcherUser, matchedUsers);
+				// Update the new Lowest Match Score and Index.
+				indexLowestMatch = updateInfo[0];
+				currLowestMatch = updateInfo[1];
 			}
 			// Write output results to Redis.
 			int i = 0;
@@ -154,6 +151,12 @@ public class TopTen extends Configured implements Tool {
 				arrayResults[i] = matchedUser.getUserID();
 				redisClient.lpush(matcherId.toString(), matchedUser.getUserID());
 				i++;
+			}
+			for(int j = 0; j < arrayResults.length; j++) {
+				if (arrayResults[j] == null) {
+					arrayResults[j] = "N/A";
+				}
+				System.out.println(arrayResults[j]);
 			}
 			
 			// Write output to outputFile.
