@@ -90,12 +90,16 @@ public class TopTen extends Configured implements Tool {
 			// Query DynamoDB for the Users in the bucketName.
 			while (prefIterator.hasNext()) {
 				Item currentRow = prefIterator.next();
-				context.write(new Text(userName), new Text(currentRow.get(Constants.USER_ID).toString()));
+				if (!currentRow.get(Constants.USER_ID).toString().equals(userName)) {
+					context.write(new Text(userName), new Text(currentRow.get(Constants.USER_ID).toString()));
+				}
 			}
 			
 			while (featIterator.hasNext()) {
 				Item current = featIterator.next();
-				context.write(new Text(userName), new Text(current.get(Constants.USER_ID).toString()));
+				if (!current.get(Constants.USER_ID).toString().equals(userName)) {
+					context.write(new Text(userName), new Text(current.get(Constants.USER_ID).toString()));
+				}
 			}
 		}
 	}
