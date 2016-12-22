@@ -7,6 +7,8 @@ import java.util.List;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.amazonaws.services.dynamodbv2.document.Item;
+
 @Component
 @Scope("session")
 public class User implements Serializable{
@@ -20,15 +22,27 @@ public class User implements Serializable{
 	private int height;
 	private int fightStyle;
 	private int location;
+	private String userId;
+
 	
 	private List<User> previousMatches = new ArrayList<User>();
 	
 	private List<Integer> preference = new ArrayList<Integer>();
 
 	
-	public User() {
+	public User(Item userData) {
+		this.firstName = userData.getString(Constants.FIRST_NAME);
+		this.lastName = userData.getString(Constants.LAST_NAME);
+		this.age = userData.getInt(Constants.AGE);
+		this.location = userData.getInt(Constants.LOCATION);
 		
+		preference.add(Constants.WEIGHT_INDEX, userData.getInt(Constants.WEIGHT));
+		preference.add(Constants.HEIGHT_INDEX, userData.getInt(Constants.HEIGHT));
+		preference.add(Constants.GENDER_INDEX, userData.getInt(Constants.GENDER));
+		preference.add(Constants.STYLE_INDEX, userData.getInt(Constants.STYLE));
+		preference.add(Constants.LOCATION_INDEX, userData.getInt(Constants.LOCATION));
 	}
+
 	public User(String firstName, String lastName, String email){
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -40,6 +54,14 @@ public class User implements Serializable{
 		preference.add(Constants.GENDER_INDEX, 0);
 		preference.add(Constants.STYLE_INDEX, 0);
 		preference.add(Constants.LOCATION_INDEX, 0);
+	}
+	
+	public void setUserID(String userId) {
+		this.userId = userId;
+	}
+	
+	public String getUserID() {
+		return this.userId;
 	}
 	
 	public String getFirstName() {
