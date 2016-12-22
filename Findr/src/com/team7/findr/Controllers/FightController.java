@@ -2,7 +2,9 @@ package com.team7.findr.Controllers;
 
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,9 +20,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.Index;
 import com.amazonaws.services.dynamodbv2.document.Item;
+import com.amazonaws.services.dynamodbv2.document.ItemCollection;
 import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
+import com.amazonaws.services.dynamodbv2.document.QueryOutcome;
 import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
+import com.amazonaws.services.dynamodbv2.document.utils.NameMap;
+import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.fasterxml.uuid.Generators;
 import com.team7.findr.user.Constants;
 
@@ -43,7 +51,7 @@ public class FightController {
 		DynamoDB dynamo = new DynamoDB(dynamoClient);
 		Table table = dynamo.getTable(Constants.USER_TABLE);
 		
-		JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost");
+		JedisPool pool = new JedisPool(new JedisPoolConfig(), Constants.REDIS_IP);
 		String uuid = Generators.nameBasedGenerator().generate((String)request.getSession().getAttribute("email")).toString();
 		// get necessary user information from redis (query by user id for the candidates list)
 		String candidateId = null;
@@ -53,7 +61,7 @@ public class FightController {
 		pool.destroy();
 		
 		if (candidateId == null) {
-			// redirect to "no new users"
+			// TODO: should redired when there is nothing in redis
 		}
 		Item item;
 		PrimaryKey primaryKey = new PrimaryKey(Constants.USER_ID, candidateId);
@@ -90,7 +98,7 @@ public class FightController {
 		Table table = dynamo.getTable(Constants.USER_TABLE);
 		String uuid = Generators.nameBasedGenerator().generate((String)request.getSession().getAttribute("email")).toString();
 		
-		JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost");
+		JedisPool pool = new JedisPool(new JedisPoolConfig(), Constants.REDIS_IP);
 		
 		// get necessary user information from redis (query by user id for the candidates list)
 		String candidateId = null;
@@ -187,7 +195,7 @@ public class FightController {
 		Table table = dynamo.getTable(Constants.USER_TABLE);
 		String uuid = Generators.nameBasedGenerator().generate((String)request.getSession().getAttribute("email")).toString();
 		
-		JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost");
+		JedisPool pool = new JedisPool(new JedisPoolConfig(), Constants.REDIS_IP);
 
 		// get necessary user information from redis (query by user id for the candidates list)
 		String candidateId = null;

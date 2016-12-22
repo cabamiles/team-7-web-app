@@ -52,4 +52,8 @@ public class Constants {
 	public static final String MALE_DEFAULT = "http://blogs-images.forbes.com/kurtbadenhausen/files/2015/06/fm-e1433941678273.jpg";
 	public static final String FEMALE_DEFAULT = "https://peopledotcom.files.wordpress.com/2016/08/rhonda-rousey-435.jpg";
 	public static final List<String> FIGHTING_STYLES = Collections.unmodifiableList(Arrays.asList("Judo", "Boxing", "Muay Thai", "Wrestling"));
+	public static final String FEATURES_INDEX = "Features-index";
+	public static final String PREFERENCES_INDEX = "Preferences-index";
+	
+	public static final String REDIS_IP = "54.85.34.18";
 }
