@@ -4,7 +4,7 @@ var genderMap = {"1":"Male", "2":"Female"};
 $(document).ready(function() {
 	$("#leftClick").click(function(event){
 		$.ajax({
-          url: '/Findr/get-matches',
+          url: '/get-matches',
           type: 'GET',
           dataType: 'json',
           success: function(data) {

@@ -29,13 +29,13 @@ $(document).ready(function() {
 		var formData = JSON.stringify($('form').serializeObject());
 		console.log(formData);
 		$.ajax({
-          url: '/Findr/sign-up',
+          url: '/sign-up',
           type: 'POST',
           dataType: 'json', 
           data: formData,
           contentType: 'application/json; charset=utf-8',
           complete: function() {
-        	  window.location.replace("/Findr/preferences");
+        	  window.location.replace("/preferences");
         	  return false;
           }
 		});

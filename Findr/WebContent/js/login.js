@@ -27,13 +27,13 @@ $(document).ready(function() {
 	$('form').submit(function(event){
 		var formData = JSON.stringify($('form').serializeObject());
 		$.ajax({
-          url: '/Findr/login',
+          url: '/login',
           type: 'POST',
           dataType: 'json', 
           data: formData,
           contentType: 'application/json; charset=utf-8',
           complete: function() {
-        	  window.location.replace("/Findr/fight");
+        	  window.location.replace("/fight");
         	  return false;
           }
 		});
